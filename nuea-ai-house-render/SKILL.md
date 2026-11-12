@@ -23,6 +23,7 @@ All work goes into a project folder next to it (`<house>_render/`).
 | `scripts/cameras.py` | normal render (`<id>.png`) or clay pass (`--clay` → `<id>_clay.png`) for every camera in `cameras.json` |
 | `scripts/idmap.py` | Material ID map (`<id>_idmap.png`) + `legend.json`: one flat colour per material group |
 | `scripts/plan_map.py` | top view `media/plan_top.png` + `plan.js` (rooms and walking path) for the walkthrough page |
+| `scripts/house_mark.py` | reads the nuea.ai mark of a nuea-ai-blender-house model and drafts `rooms.json` (rooms found from the walls, named after their furniture, ids = camera ids) and `groups.json`. Writes nothing for other models. `--selftest` |
 | `scripts/overlay.sh` | red Blender edges over an AI image (ffmpeg; run with `bash`) |
 | `scripts/_common.py` | shared by the three Blender scripts: arguments, id check, render settings, level camera |
 | `walkthrough/index.html` | the game-map page: click a room → the map opens, a point walks the path, the clip plays; hold **B** = the Blender view |
@@ -50,6 +51,14 @@ have the right to use, or a style in words.
 **Done when** the route is chosen and the project folder exists.
 
 ### 2. Cameras like interior photos
+First run `house_mark.py <project>` (no cameras yet). A model built with the nuea-ai-blender-house skill carries the
+nuea.ai channel's mark: its collection names, `<PROJ> STnn <name>` stages or `<PROJ> Walls` + `<PROJ> Openings`. For
+such a model the script prints `MARK …`, then one `ROOM` line per room with its rectangle, area and furniture. It also
+writes `groups.json` (step 3). It writes `rooms.json` only in step 7, once the cameras exist. `MARK none` means another
+model: list the rooms by hand, as before. Check the rooms against the plan before you trust them:
+- A room open to the outside at every cut 2.1–3.0 m above the floor is missed.
+- Two spaces with no wall between them come out as one room.
+- `NO WALLS` means the floor level is wrong (a second storey, say). Pass `--floor Z`.
 Read `references/camera-rules.md`. List the rooms with their bounds and hero furniture, propose two cameras per room,
 render them small (`cameras.py … --percent 40`), and show a contact sheet. Iterate until the user picks one per room.
 **Done when** `cameras.json` holds one approved camera per room and every room renders at 100% with a clear foreground.
@@ -61,7 +70,10 @@ cameras.py  <out>/renders <cameras.json> --clay     # <id>_clay.png   clay ("ด
 idmap.py    <out>/renders <cameras.json>            # <id>_idmap.png  + legend.json
 ```
 Open `legend.json`: if a large surface fell into `other` or the wrong group, write `groups.json` next to
-`cameras.json` (`{"wall": ["myplaster", …]}`; its keywords win over the built-in table) and run `idmap.py` again. Materials
+`cameras.json` (`{"wall": ["myplaster", …]}`; its keywords win over the built-in table) and run `idmap.py` again. For a
+marked model, `house_mark.py` has already drafted it. It groups each material the table calls `other` by the build stage
+that uses it: ST08 ceiling, ST14 frame, and so on. A material used mostly by furniture stays `other`. Edit the draft
+like any `groups.json`. Materials
 under `unrecoloured` are linked from another .blend and kept their own colour: tell the user which objects they are.
 The clay pass also covers window glass, so a room lit only by the sun renders darker; that is expected.
 **Done when** every camera has all three images and no large surface is grey (`other`).
@@ -85,7 +97,18 @@ Make a contact sheet of each clip and look for warping.
 ### 7. Walkthrough page
 Copy `walkthrough/` into the project. Write `rooms.json`: room ids = the camera ids, rectangles in plan metres in
 walkthrough order, optional `path` through the doors, `cut_z` just under the ceiling (one floor per run), and the
-optional `clip` / `spot` / `at` fields described at the top of `plan_map.py`. Run `plan_map.py <project>/walkthrough
+optional `clip` / `spot` / `at` fields described at the top of `plan_map.py`. For a marked model, run
+`house_mark.py <project> <cameras.json>` instead of writing it. A camera that stands outside is `OUTSIDE`, whatever it
+faces. Otherwise it gets the room its `look` point falls in, else the room it stands in. So keep each camera's
+`look` inside its own room. The room takes the camera's id and a name from that id (`05_bed1` → ห้องนอน 1). An
+L-shaped room gets its biggest rectangle. A room with no camera gets `"clip": false`. Then act on what it prints:
+- `SHARED`: two cameras in one space. Split the rectangle between them.
+- `OUTSIDE`: a camera outside every room. Add it by hand with a `spot` if it has a clip.
+- `GROUP skip`: a material name that would also recolour another material. Add it to `groups.json` by hand if needed.
+- A room missing from the list: add it by hand.
+
+A file that exists is never overwritten: the draft goes to `rooms.mark.json` / `groups.mark.json` beside it (nothing
+is written when it would be the same). Run `plan_map.py <project>/walkthrough
 rooms.json`, then fill `walkthrough/media/`: `<id>.mp4`, and the two stills as JPEG
 (`ffmpeg -v error -y -i <id>_real.png -q:v 2 media/<id>_real.jpg`, the same for `<id>.png` → `media/<id>_blender.jpg`).
 Open `index.html` in Chrome and click every room; hold B once.

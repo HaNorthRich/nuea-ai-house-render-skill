@@ -1,5 +1,46 @@
-# Shared by cameras.py, idmap.py and plan_map.py (Blender headless). Nothing here saves the .blend.
+# Shared by cameras.py, idmap.py, plan_map.py and house_mark.py (Blender headless). Nothing here saves the .blend.
 import bpy, sys, re, math
+
+# Material ID map groups: group -> (hex colour, what to tell the AI). First keyword match wins, so put specific words first.
+GROUPS = {
+    "glass":    ("#1e88e5", "window glass / mirror"),
+    "frame":    ("#3949ab", "window and door frames, aluminium, steel doors"),
+    "ceiling":  ("#4dd0e1", "ceiling"),
+    "walltile": ("#f48fb1", "wall tiles"),
+    "floor":    ("#fdd835", "floor tiles / floor finish"),
+    "wall":     ("#e53935", "painted / plastered walls"),
+    "roof":     ("#8e24aa", "roof, fascia, flashing"),
+    "wood":     ("#43a047", "wood: furniture, cabinets, doors, slats"),
+    "fabric":   ("#aed581", "fabric: sofa, bedding, curtains, rugs"),
+    "sanitary": ("#fafafa", "ceramic: toilet, basin"),
+    "stone":    ("#a1887f", "stone / granite counters"),
+    "metal":    ("#616161", "metal and black fittings, appliances"),
+    "plant":    ("#76ff03", "plants"),
+    "lamp":     ("#fff59d", "lamps, light shades"),
+    "ground":   ("#827717", "lawn, garden, ground"),
+    "concrete": ("#fb8c00", "concrete: steps, columns, slabs, paving"),
+    "other":    ("#9e9e9e", "everything else"),
+}
+KEYWORDS = {
+    "glass": ["glass", "mirror"], "frame": ["alu", "door_steel", "frame", "trim"], "ceiling": ["ceiling"],
+    "walltile": ["tile_p", "wall_tile", "tilewall"], "floor": ["tile_fl", "floor", "screed", "vinyl", "tilebed"],
+    "wall": ["wall", "plaster", "paint", "primer", "brick", "smartboard"], "roof": ["roof", "fascia", "flashing", "metalsheet"],
+    "wood": ["oak", "walnut", "teak", "wood", "rattan", "wpc", "plank"], "fabric": ["linen", "wool", "rug", "fabric", "sage", "cloth"],
+    "sanitary": ["ceramic", "china", "porcelain"], "stone": ["stone", "granite", "marble"],
+    "metal": ["chrome", "stainless", "steel", "metal", "black", "charcoal", "fitting", "valve", "device"],
+    "plant": ["leaf", "plant", "foliage"], "lamp": ["lamp", "paper", "glow"], "ground": ["lawn", "grass", "sand", "ground"],
+    "concrete": ["concrete"],
+}
+
+
+def group_of(name, user=None):
+    """The ID map group of a material name: the user's groups.json keywords first, then the built-in table."""
+    n = name.lower()
+    for table in (user or {}, KEYWORDS):
+        g = next((g for g, words in table.items() if any(w.lower() in n for w in words)), None)
+        if g:
+            return g
+    return "other"
 
 
 def cli():

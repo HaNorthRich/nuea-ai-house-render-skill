@@ -92,11 +92,11 @@ Ask the user which route they want; both can be added later.
 Build the sample room, then render its three passes and its map:
 
 ```bash
-OUT="$HOME/nuea_render_sample" && SK="$HOME/.claude/skills/nuea-ai-house-render" && "<BLENDER>" -b --factory-startup --python-exit-code 1 -P "$SK/examples/sample_room.py" -- "$OUT" && "<BLENDER>" -b "$OUT/sample_room.blend" --python-exit-code 1 --python "$SK/scripts/cameras.py" -- "$OUT/renders" "$OUT/cameras.json" && "<BLENDER>" -b "$OUT/sample_room.blend" --python-exit-code 1 --python "$SK/scripts/cameras.py" -- "$OUT/renders" "$OUT/cameras.json" --clay && "<BLENDER>" -b "$OUT/sample_room.blend" --python-exit-code 1 --python "$SK/scripts/idmap.py" -- "$OUT/renders" "$OUT/cameras.json" && mkdir -p "$OUT/walkthrough" && cp -R "$SK/walkthrough/." "$OUT/walkthrough/" && "<BLENDER>" -b "$OUT/sample_room.blend" --python-exit-code 1 --python "$SK/scripts/plan_map.py" -- "$OUT/walkthrough" "$OUT/rooms.json"
+OUT="$HOME/nuea_render_sample" && SK="$HOME/.claude/skills/nuea-ai-house-render" && "<BLENDER>" -b --factory-startup --python-exit-code 1 -P "$SK/examples/sample_room.py" -- "$OUT" && "<BLENDER>" -b "$OUT/sample_room.blend" --python-exit-code 1 --python "$SK/scripts/cameras.py" -- "$OUT/renders" "$OUT/cameras.json" && "<BLENDER>" -b "$OUT/sample_room.blend" --python-exit-code 1 --python "$SK/scripts/cameras.py" -- "$OUT/renders" "$OUT/cameras.json" --clay && "<BLENDER>" -b "$OUT/sample_room.blend" --python-exit-code 1 --python "$SK/scripts/idmap.py" -- "$OUT/renders" "$OUT/cameras.json" && mkdir -p "$OUT/walkthrough" && cp -R "$SK/walkthrough/." "$OUT/walkthrough/" && "<BLENDER>" -b "$OUT/sample_room.blend" --python-exit-code 1 --python "$SK/scripts/plan_map.py" -- "$OUT/walkthrough" "$OUT/rooms.json" && "<BLENDER>" -b --factory-startup --python-exit-code 1 --python "$SK/scripts/house_mark.py" -- --selftest
 ```
 
 - **Check:** exit code 0; `$OUT/renders` holds `01_living.png`, `01_living_clay.png`, `01_living_idmap.png`,
-  `legend.json`; `$OUT/walkthrough/plan.js` exists. Show the user the three images.
+  `legend.json`; `$OUT/walkthrough/plan.js` exists; the last line is `SELFTEST OK`. Show the user the three images.
 
 ## 7. Hand over (**user**)
 

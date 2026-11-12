@@ -19,6 +19,22 @@ Skill ตัวนี้ผมทำขึ้นมาจากคลิป EP6 
 - **Claude Code** ใช้กับแพ็กเกจเสียเงินของ Claude (Pro ขึ้นไป) หรือ API key แพ็กเกจฟรีใช้ไม่ได้ (ณ พ.ย. 2569 · [ดูแพ็กเกจ](https://claude.com/pricing))
   เปิดได้ทั้งในแอป Claude บนคอมพิวเตอร์ (แท็บ Code) และใน terminal
 - **ไฟล์ .blend ของบ้านที่ตกแต่งแล้ว** มีเฟอร์นิเจอร์ครบ หน้าตาแบบในรูปด้านล่างก็ใช้ได้ ไม่ต้องสวยครับ
+  ถ้าปั้นด้วย Skill ปั้นบ้านใน Blender ของช่อง nuea.ai จะยิ่งง่าย (ดูหัวข้อถัดไป)
+
+## ใช้คู่กับ Skill ปั้นบ้านใน Blender · Claude จัดห้องและวัสดุให้เอง
+
+Skill ปั้นบ้านของช่อง nuea.ai ซ่อน**ลายน้ำของช่อง**ไว้ในไฟล์ .blend ครับ คือชื่อกลุ่มตามขั้นงาน เช่น `ST06 Walls` (ผนัง) `ST08 Ceiling` (ฝ้า)
+`ST14 Doors Windows` (ประตูหน้าต่าง) หรือกลุ่ม `Walls` กับ `Openings` ของโมเดลขาย Skill render ตัวนี้อ่านลายน้ำนั้นออก แล้วทำ 2 อย่างให้เอง
+
+| ทำอะไรให้ | เดิมต้องทำเอง |
+|---|---|
+| **หาห้องทุกห้องจากผนัง** บอกขนาด ตั้งชื่อตามเฟอร์นิเจอร์ในห้อง (มีเตียงคือห้องนอน มีชักโครกคือห้องน้ำ) และจับคู่กับมุมกล้อง | Claude ต้องเขียนพิกัดห้องลง `rooms.json` ทีละห้อง |
+| **จัดกลุ่มวัสดุให้ Material ID map** วัสดุที่ชื่อไม่บอกว่าเป็นอะไร เช่น `M_Gypsum` ดูจากขั้นงานที่ใช้มัน ถ้าอยู่ขั้นฝ้าก็เป็นฝ้า | Claude ต้องเดาจากชื่อ ที่เดาไม่ออกก็เป็นสีเทา |
+
+ตอนผมลองกับบ้าน SS-02 จากคลิป EP5 Claude หาห้องเจอครบ 9 ห้อง จับคู่มุมกล้องได้ทั้ง 7 มุม และวัสดุที่เป็นสีเทาลดจาก 21 เหลือ 7 อย่าง
+ส่วนที่เหลือเป็นวัสดุของเฟอร์นิเจอร์ ซึ่ง Claude ไม่เดาให้ครับ
+
+บ้านที่ปั้นด้วยวิธีอื่นก็ใช้ Skill นี้ได้เหมือนเดิมทุกอย่าง แค่ Claude จะจัดห้องกับวัสดุให้แบบเดิม คือดูจากชื่อและถามเรา
 - **ทางทำภาพ เลือก 1 ทาง** (เพิ่มอีกทางทีหลังได้)
   - **Kling** เสียเงิน (ใช้เครดิต Kling) แต่ Claude ทำให้ทั้งหมด
   - **Google Flow** มีโควตาฟรีรายวัน แต่คุณต้องอัปโหลดและกดเองบนเว็บ Claude เตรียมไฟล์กับ prompt ให้
@@ -68,6 +84,7 @@ Claude จะเปิดไฟล์ เช็กเครื่องมือ
 
 Claude จะตั้งกล้องแบบภาพถ่ายตกแต่งภายในครับ คือกล้องตั้งตรง เลนส์ 16–24 มม. สูงราว 1 เมตร และจัดเฟรมที่โซฟา หัวเตียง หรือโต๊ะ
 แล้วเสนอห้องละ 2 มุมเป็นภาพเล็กให้เราเลือก ชอบมุมไหนบอกได้เลยครับ หรือสั่งแก้ก็ได้
+ถ้าบ้านปั้นด้วย Skill ปั้นบ้าน Claude จะอ่านลายน้ำก่อน เลยรู้ว่ามีห้องอะไรบ้าง ขนาดเท่าไหร่ และมีเฟอร์นิเจอร์อะไร ก่อนตั้งกล้องครับ
 
 ```
 ห้องนั่งเล่นเอามุมที่ 2 ส่วนห้องนอนขยับกล้องให้เห็นหัวเตียงเต็มๆ
@@ -90,7 +107,7 @@ Claude จะตั้งกล้องแบบภาพถ่ายตกแ�
 ที่ต้องมี Material ID map เพราะตอนผมทดลองกับบ้านจริง AI ขยับมุมกล้องเอง แล้วก็เปลี่ยนพื้นห้องน้ำด้วยครับ
 แต่พอส่ง ID map ไปด้วย เส้นแดงก็ทับตรงทุกเส้น และวัสดุก็วางถูกที่ตามสี
 
-ถ้าเห็นพื้นที่ใหญ่ๆ เป็นสีเทา แปลว่า Claude ยังไม่รู้ว่าเป็นวัสดุอะไร บอกได้เลยครับ
+ถ้าเห็นพื้นที่ใหญ่ๆ เป็นสีเทา แปลว่า Claude ยังไม่รู้ว่าเป็นวัสดุอะไร บอกได้เลยครับ (บ้านจาก Skill ปั้นบ้าน Claude จัดกลุ่มวัสดุให้ไว้ก่อนแล้วใน `groups.json`)
 
 ```
 ผนังห้องนี้เป็นปูนฉาบทาสีขาว ส่วนพื้นเป็นกระเบื้องสีเทาด้าน
@@ -168,6 +185,7 @@ Claude จะเอาเส้นขอบจาก Blender สีแดงม�
 ```
 
 Claude จะทำหน้าเว็บไว้ในโฟลเดอร์ `walkthrough/` แล้วเราเปิด `index.html` ด้วย Chrome ลองเล่นได้เลยครับ ถ้าจะส่งให้ใครดู ต้องส่งไปทั้งโฟลเดอร์
+บ้านจาก Skill ปั้นบ้าน Claude จะวางกรอบห้องบนผังให้เองจากผนังจริง ส่วนห้องที่ไม่มีผนังกั้น เช่น ห้องนั่งเล่นต่อกับห้องทานข้าว Claude จะแบ่งกรอบให้ตามมุมกล้อง
 
 - คลิกห้องบนผัง → จุดเดินไปตามทางเดิน → คลิปห้องนั้นเล่น
 - กด **B** ค้างไว้ = ดูภาพ Blender มุมเดียวกัน
@@ -240,7 +258,7 @@ vertical lines perfectly straight. No people, no text, no watermark.
 |---|---|
 | `nuea-ai-house-render/SKILL.md` | ขั้นตอนหลัก 7 ขั้นที่ Claude ทำตาม |
 | `nuea-ai-house-render/references/` | กฎมุมกล้อง · prompt ที่ใช้ได้ผล · วิธีใช้ Kling · วิธีใช้ Google Flow · วิธีตรวจเส้นแดงและสิ่งที่ AI ชอบแอบเปลี่ยน |
-| `nuea-ai-house-render/scripts/` | `cameras.py` (ภาพปกติ/ดินน้ำมัน) · `idmap.py` (Material ID map) · `plan_map.py` (ผังสำหรับแผนที่) · `overlay.sh` (ซ้อนเส้นแดง) · `_common.py` (ส่วนที่ 3 สคริปต์แรกใช้ร่วมกัน) |
+| `nuea-ai-house-render/scripts/` | `cameras.py` (ภาพปกติ/ดินน้ำมัน) · `idmap.py` (Material ID map) · `plan_map.py` (ผังสำหรับแผนที่) · `house_mark.py` (อ่านลายน้ำของ Skill ปั้นบ้าน จัดห้องและกลุ่มวัสดุให้) · `overlay.sh` (ซ้อนเส้นแดง) · `_common.py` (ส่วนที่สคริปต์ใช้ร่วมกัน) |
 | `nuea-ai-house-render/walkthrough/` | หน้าเว็บแผนที่แบบเกม |
 | `nuea-ai-house-render/examples/` | ห้องตัวอย่างไว้ทดสอบหลังติดตั้ง |
 | `docs/images/` | รูปในหน้านี้ จากบ้านทดลองในคลิป EP6 |
@@ -271,7 +289,10 @@ vertical lines perfectly straight. No people, no text, no watermark.
 A Claude Code skill that turns a furnished Blender house into photoreal stills, 5 s clips and a game-style map page
 without the AI moving the walls: interior-photo camera rules, a normal/clay/Material ID map pass per camera (the ID map
 tells the image model which surface is which material), stills through Kling's MCP (paid) or Google Flow (free daily
-quota, by hand), a red edge-overlay check against the model, and a walkthrough page (share the whole `walkthrough/` folder). Install by sending
+quota, by hand), a red edge-overlay check against the model, and a walkthrough page (share the whole `walkthrough/` folder).
+A house built with the nuea-ai-blender-house skill carries that skill's naming, the nuea.ai mark. `house_mark.py`
+reads it to find the rooms from the walls (named after their furniture, matched to the cameras) and to group materials
+by build stage for the ID map. Other models work as before. Install by sending
 Claude Code the repository link; see [INSTALL.md](INSTALL.md). MIT licence.
 Requires a paid Claude plan (Pro or above) or an API key. Kling costs credits; Google Flow has a free daily quota that
 Google can change. Not affiliated with or endorsed by Anthropic, Google, Kling or the Blender Foundation; product names
