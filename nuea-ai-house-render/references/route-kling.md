@@ -6,7 +6,8 @@ the user's Kling account before a big batch (`who_am_i` lists models and argumen
 
 ## Setup
 `claude mcp add --transport http --scope user klingai https://kling.ai/mcp`, restart Claude Code, `/mcp` → klingai →
-Authenticate (the user logs in). First call in a session: `who_am_i` (models, arguments, allowed values).
+Authenticate (the user logs in). Codex: `codex mcp add klingai --url https://kling.ai/mcp`, then the user runs
+`codex mcp login klingai` and restarts Codex. First call in a session: `who_am_i` (models, arguments, allowed values).
 
 ## Tools and settings that worked
 | Job | Tool · model | Settings | Credits (Nov 2026) |

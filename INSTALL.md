@@ -1,4 +1,18 @@
-# Install guide for Claude
+# Install guide for an AI agent (Claude Code or Codex)
+
+**Codex:** the commands below are written for Claude Code. Swap these parts before you run one:
+
+| Claude Code | Codex |
+|---|---|
+| `~/.claude/` or `$HOME/.claude/` in a path | `~/.agents/` or `$HOME/.agents/` (`~/.codex/` where that setup keeps its skills: ask the user if you cannot tell) |
+| `claude mcp list` | `codex mcp list` |
+| `claude` not found | `codex` not found (a desktop or IDE Codex without the CLI): give the user the `codex` commands to run in a terminal |
+| `claude mcp add --scope user blender "<uvx>" mcp-for-blender…` | `codex mcp add blender -- "<uvx>" mcp-for-blender…` (same package and version) |
+| `claude mcp remove blender --scope user` | `codex mcp remove blender` |
+| `claude mcp add --transport http --scope user klingai https://kling.ai/mcp` | `codex mcp add klingai --url https://kling.ai/mcp` |
+| `/mcp` → **klingai** → **Authenticate** | the user runs `codex mcp login klingai` |
+
+In a clone of this repository Codex already sees the skill through `.agents/skills/nuea-ai-house-render`, without installing.
 
 The user sent you this repository and asked you to install the skill. Work through the steps in order. Each step
 ends on a check: run it, read its output, and tell the user the result in their language.
@@ -13,8 +27,9 @@ ends on a check: run it, read its output, and tell the user the result in their 
 
 ## 0. A shell and git
 
-This skill needs Claude Code (the terminal app, the Code tab of the Claude desktop app, or an IDE extension),
-because it installs files and runs Blender. Claude Code comes with the paid Claude plans (Pro and up) or an API key.
+This skill needs an agent with a shell: Claude Code (the terminal app, the Code tab of the Claude desktop app, or an
+IDE extension) or Codex, because it installs files and runs Blender. Claude Code comes with the paid Claude plans
+(Pro and up) or an API key.
 
 - No shell available (a chat-only Claude): tell the user to open Claude Code and paste
   `ลง Skill นี้ให้หน่อย https://github.com/HaNorthRich/nuea-ai-house-render-skill`, then stop.
@@ -102,7 +117,7 @@ OUT="$HOME/nuea_render_sample" && SK="$HOME/.claude/skills/nuea-ai-house-render"
 
 1. If Blender MCP was added: in Blender, **Edit → Preferences → Add-ons**, enable **MCP for Blender**, press **N** in
    the 3D viewport → **MCP for Blender** tab → **Start MCP Server**.
-2. Quit Claude Code completely and open it again: skills and MCP servers load when a session starts.
+2. Quit Claude Code (or Codex) completely and open it again: skills and MCP servers load when a session starts.
 3. If Kling was added: type `/mcp` → **klingai** → **Authenticate**, and log in to Kling.
 4. Then try: `ทำภาพบ้านหลังนี้ให้สมจริง จัดมุมกล้องแบบภาพ Pinterest ทุกห้อง <path ของไฟล์ .blend>`.
 

@@ -1,6 +1,7 @@
 # nuea.ai House Render · Skill render บ้านให้สมจริงจาก Blender ด้วย Claude
 
-> **For Claude and other AI agents:** to install this skill, follow [INSTALL.md](INSTALL.md)
+> **For Claude, Codex and other AI agents:** read [AGENTS.md](AGENTS.md) first. It says what this repository is, what
+> to install, and which request maps to which step. To install or update the skill, follow [INSTALL.md](INSTALL.md)
 > (raw: https://raw.githubusercontent.com/HaNorthRich/nuea-ai-house-render-skill/main/INSTALL.md).
 
 <p align="center">
@@ -59,6 +60,10 @@ Skill ปั้นบ้านของช่อง nuea.ai ซ่อน**ลา
    - ถ้าเลือก Kling: พิมพ์ `/mcp` → **klingai** → **Authenticate** แล้วล็อกอิน Kling
    - ถ้าลง Blender MCP ด้วย (ไม่บังคับ แต่ผมแนะนำครับ): ใน Blender ไปที่ **Edit → Preferences → Add-ons** เปิด **MCP for Blender**
      แล้วกด **N** ในหน้าจอ 3D → แท็บ **MCP for Blender** → **Start MCP Server**
+
+**ใช้ Codex ก็ได้ครับ** clone repo แล้วเปิด Codex ในโฟลเดอร์นั้น Codex จะเห็น Skill ทันทีโดยไม่ต้องติดตั้ง
+(repo มีโฟลเดอร์ `.agents/skills/` ที่ Codex อ่านเอง) ถ้าอยากใช้ได้ทุกโฟลเดอร์ พิมพ์ `ติดตั้ง Skill นี้ให้หน่อย`
+แล้ว Codex จะลงไว้ที่ `~/.agents/skills` และต่อ MCP ด้วยคำสั่ง `codex mcp add` ตาม [INSTALL.md](INSTALL.md) ครับ
 
 ## ใช้งานทีละขั้น
 
