@@ -9,15 +9,17 @@ Google Flow.
 | 2 images (Kling Nano Banana Pro) | image 1 = normal render · image 2 = Material ID map — put the style in words |
 | 3+ images (Kling Omni, Google Flow) | normal render + Material ID map + one style photo **the user has the right to use** |
 | 1 image | the normal render only, legend in words |
+| 3+ images and a surface looks CG or must be one exact product | normal render + Material ID map + real-material swatches (+ a clay crop for a repeating product), style photo last: `swatches.md` |
 
 ## Interior still
+`Image <n>` in the style line is 3, or the last image number when swatches come first (`swatches.md`).
 ```
 Image 1 is a 3D render of a real house <room, e.g. master bedroom, front view of the bed>.
 Image 2 is its Material ID map: the same camera, every surface painted one flat colour that tells you its material.
 Colour legend: <one line per legend group present in this room, e.g. red = white painted walls; yellow = light grey
 matte floor tiles; cyan = white ceiling; green = natural oak wood; light green = cream linen fabric; blue = window
 glass; dark blue = black aluminium frames; white = white ceramic; grey = matte black metal>.
-[Image 3 is a style reference only: do not copy its layout.]
+[Image <n> is a style reference only: do not copy its layout.]
 Create a photorealistic, magazine-quality interior photograph of the exact room in Image 1, styled in <style, e.g.
 warm Japandi: natural oak, cream linen, handmade ceramics, greenery>. Use Image 2 to place each material exactly where
 its colour is; do not show any colour from Image 2 in the result.

@@ -30,7 +30,8 @@ All work goes into a project folder next to it (`<house>_render/`).
 | `examples/sample_room.py` | builds a test room from an empty Blender (install proof) |
 
 References (read when the step says so): `references/camera-rules.md` · `references/prompts.md` ·
-`references/route-kling.md` · `references/route-google-flow.md` · `references/checking.md`.
+`references/route-kling.md` · `references/route-google-flow.md` · `references/checking.md` ·
+`references/swatches.md` (optional real-material swatches).
 
 All Blender scripts run headless:
 `"<BLENDER>" -b -Y "<house.blend>" --python-exit-code 1 --python <script> -- <args>`. Add `-S <scene>` right after the
@@ -66,7 +67,7 @@ render them small (`cameras.py … --percent 40`), and show a contact sheet. Ite
 ### 3. Three passes per camera
 ```
 cameras.py  <out>/renders <cameras.json>            # <id>.png        normal render
-cameras.py  <out>/renders <cameras.json> --clay     # <id>_clay.png   clay ("ดินน้ำมัน") for the cover / before-after
+cameras.py  <out>/renders <cameras.json> --clay     # <id>_clay.png   clay ("ดินน้ำมัน") for the cover / before-after · product crops in step 4
 idmap.py    <out>/renders <cameras.json>            # <id>_idmap.png  + legend.json
 ```
 Open `legend.json`: if a large surface fell into `other` or the wrong group, write `groups.json` next to
@@ -82,6 +83,8 @@ The clay pass also covers window glass, so a room lit only by the sun renders da
 Build one prompt per room from `references/prompts.md`: legend lines only for the colours present in that room, the
 KEEP list from the scene, the placeholders to replace, the decor. Run the chosen route: Kling submits (price first,
 see **Paid jobs**); Flow gets an upload pack per room. One room first, show the user, then the rest.
+When a surface still looks CG or plastic, or must be one exact product (a roof tile, a ventilation block), add
+real-material swatches and, for a repeating product, a crop of the clay pass: `references/swatches.md`.
 **Done when** every room has `<id>_real.png` the user approved.
 
 ### 5. Same house check
